@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cifra's</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== LOGIN ===== */
+    .login-container {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: #c40000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+    .login-box {
+      background: #ffffff;
+      width: 360px;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+    .login-box h3 {
+      margin-bottom: 20px;
+      color: #1d1a39;
+    }
+    .login-box label {
+      display: block;
+      text-align: left;
+      margin: 10px 0 6px;
+      font-size: 13px;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #000000;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    .login-box button {
+      margin-top: 18px;
+      padding: 10px;
+      background: #c40000;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .login-box button:hover { background: #00b24f; }
+  </style>
+</head>
+<body>
+
+  <!-- ===== LOGIN ===== -->
+  <div class="login-container" id="loginScreen">
+    <div class="login-box">
+      <h3>Cifra's</h3>
+      <form id="loginForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Digite seu email" required>
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" placeholder="Digite sua senha" required>
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== TOPO ===== -->
+  <header class="topbar">
+    <button class="menu-toggle" aria-label="Abrir menu">&#9776;</button>
+    <h1>Cifra's</h1>
+    <button class="theme-toggle" aria-label="Alternar tema">🌙</button>
+  </header>
+
+  <!-- ===== LAYOUT ===== -->
+  <div class="layout" id="mainLayout" style="display:none;">
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <h2>Repertório</h2>
+      <a href="#" data-page="inicio" class="active">Página Inicial</a>
+      <a href="#" data-page="entrada">Canto de Entrada</a>
+      <a href="#" data-page="penitencial">Ato Penitencial</a>
+      <a href="#" data-page="gloria">Glória</a>
+      <a href="#" data-page="salmo">Salmo</a>
+      <a href="#" data-page="aleluia">Aclamação</a>
+      <a href="#" data-page="ofertorio">Ofertório</a>
+      <a href="#" data-page="santo">Santo</a>
+      <a href="#" data-page="respostas">Respostas</a>
+      <a href="#" data-page="cordeiro">Cordeiro</a>
+      <a href="#" data-page="comunhao">Comunhão</a>
+      <a href="#" data-page="poscomunhao">Pós Comunhão</a>
+      <a href="#" data-page="homenagem">Homenagem</a>
+      <a href="#" data-page="cantofinal">Canto Final</a>
+    </nav>
+
+    <!-- Conteúdo principal -->
+    <main class="main-content fade-in" id="conteudo">
+      <h2>Bem-vindo ao <span>Cifra's</span></h2>
+      <p>Aqui você encontra as músicas para missas ou celebrações!.<br>
+      Clique no menu ao lado para acessar cada momento da missa.</p>
+    </main>
+  </div>
+
+  <!-- ===== SCRIPT ===== -->
+  <script>
+    const loginScreen = document.getElementById("loginScreen");
+    const loginForm = document.getElementById("loginForm");
+    const mainLayout = document.getElementById("mainLayout");
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const themeToggle = document.querySelector(".theme-toggle");
+    const conteudo = document.getElementById("conteudo");
+    const links = sidebar.querySelectorAll("a");
+
+    // ===== LOGIN =====
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      // Aqui você poderia validar com backend
+      loginScreen.style.display = "none";
+      mainLayout.style.display = "flex";
+    });
+
+    // Alterna menu lateral no mobile
+    menuToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
+
+    // Alterna tema
+    themeToggle.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    });
+
+    // Dados das páginas
+    const paginas = {
+      inicio: { titulo: "Bem-vindo ao Cifra's", texto: `<p>Aqui você encontra as músicas para missas ou celebrações!.<br>Clique no menu ao lado para acessar cada momento da missa.</p>`, voltar: null, proximo: "entrada" },
+      entrada: { titulo: "Canto de Entrada", texto: `<div class="musica-card"><h3>À Senhora Aparecida</h3><p><strong>Compositor:</strong> Padre Zezinho</p><p><strong>Tom:</strong> G</p></div>`, voltar: "inicio", proximo: "penitencial" },
+      penitencial: { titulo: "Ato Penitencial", texto: `<div class="musica-card"><h3>Senhor, Tende Piedade</h3><p><strong>Tom:</strong> A</p></div>`, voltar: "entrada", proximo: "gloria" },
+      gloria: { titulo:"Glória", texto:"<p>Conteúdo do Glória</p>", voltar:"penitencial", proximo:"salmo" },
+      salmo: { titulo:"Salmo", texto:"<p>Conteúdo do Salmo</p>", voltar:"gloria", proximo:"aleluia" },
+      aleluia: { titulo:"Aclamação", texto:"<p>Conteúdo da Aclamação</p>", voltar:"salmo", proximo:"ofertorio" },
+      ofertorio: { titulo:"Ofertório", texto:"<p>Conteúdo do Ofertório</p>", voltar:"aleluia", proximo:"santo" },
+      santo: { titulo:"Santo", texto:"<p>Conteúdo do Santo</p>", voltar:"ofertorio", proximo:"respostas" },
+      respostas: { titulo:"Respostas", texto:"<p>Conteúdo das Respostas</p>", voltar:"santo", proximo:"cordeiro" },
+      cordeiro: { titulo:"Cordeiro", texto:"<p>Conteúdo do Cordeiro</p>", voltar:"respostas", proximo:"comunhao" },
+      comunhao: { titulo:"Comunhão", texto:"<p>Conteúdo da Comunhão</p>", voltar:"cordeiro", proximo:"poscomunhao" },
+      poscomunhao: { titulo:"Pós Comunhão", texto:"<p>Conteúdo do Pós Comunhão</p>", voltar:"comunhao", proximo:"homenagem" },
+      homenagem: { titulo:"Homenagem", texto:"<p>Conteúdo da Homenagem</p>", voltar:"poscomunhao", proximo:"cantofinal" },
+      cantofinal: { titulo:"Canto Final", texto:"<p>Conteúdo do Canto Final</p>", voltar:"homenagem", proximo:null }
+    };
+
+    // Carregar página
+    function carregar(pagina) {
+      const p = paginas[pagina];
+      conteudo.innerHTML = `
+        <h2>${p.titulo}</h2>
+        ${p.texto}
+        <div class="buttons">
+          ${p.voltar ? `<button class="btn-nav" onclick="carregar('${p.voltar}')">← Voltar</button>` : `<button class="btn-nav" disabled>← Voltar</button>`}
+          ${p.proximo ? `<button class="btn-nav" onclick="carregar('${p.proximo}')">Próximo →</button>` : `<button class="btn-nav" disabled>Próximo →</button>`}
+        </div>
+      `;
+      conteudo.classList.remove("show");
+      setTimeout(() => conteudo.classList.add("show"), 10);
+
+      // Atualiza ativo no menu
+      links.forEach(link => link.classList.remove("active"));
+      const linkAtivo = Array.from(links).find(l => l.dataset.page === pagina);
+      if(linkAtivo) linkAtivo.classList.add("active");
+
+      // Fecha menu mobile
+      sidebar.classList.remove("open");
+
+      // Scroll topo
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Eventos nos links do menu
+    links.forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const page = link.dataset.page;
+        carregar(page);
+      });
+    });
+
+    // Inicializa SPA
+    carregar("inicio");
+  </script>
+</body>
+</html>

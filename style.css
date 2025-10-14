@@ -1,0 +1,185 @@
+:root {
+  --primary: #c40000;
+  --dark: #1c2541;
+  --light: #f8f9fa;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--light);
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark {
+  background-color: #0f172a;
+  color: #eee;
+}
+
+/* ===== Topbar ===== */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  color: var(--primary);
+  padding: 10px 25px;
+  font-size: 22px;
+  font-weight: bold;
+  box-shadow: 0 2px 8px var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid var(--dark);
+}
+
+.topbar h1 {
+  margin: 0;
+}
+
+.menu-toggle,
+.theme-toggle {
+  font-size: 25px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--dark);
+  transition: transform 0.3s ease;
+}
+
+.menu-toggle:hover,
+.theme-toggle:hover {
+  transform: scale(1.2);
+}
+
+/* ===== Layout ===== */
+.layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+  width: 260px;
+  background: white;
+  padding: 20px;
+  border-right: 1px solid var(--shadow);
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  color: var(--dark);
+  border-bottom: 2px solid var(--dark);
+  padding-bottom: 10px;
+}
+
+.sidebar a {
+  display: block;
+  text-decoration: none;
+  background: var(--dark);
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  margin: 10px 0;
+  text-align: center;
+  font-weight: 500;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.sidebar a:hover {
+  background: #2a3b6d;
+  transform: scale(1.03);
+}
+
+.sidebar a.active {
+  background: var(--primary);
+}
+
+/* ===== Main Content ===== */
+.main-content {
+  flex: 1;
+  padding: 50px;
+  overflow-y: auto;
+  text-align: center;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.main-content h2 {
+  font-size: 38px;
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.main-content p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.main-content span {
+  color: var(--primary);
+}
+
+/* ===== Botões ===== */
+.buttons {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-nav {
+  background: var(--dark);
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px var(--shadow);
+}
+
+.btn-nav:hover {
+  background: var(--primary);
+  transform: translateY(-3px);
+}
+
+/* ===== Animações ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease forwards;
+}
+
+/* ===== Responsivo ===== */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 60px;
+    height: calc(100% - 60px);
+    transition: left 0.4s ease;
+    z-index: 9;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .layout {
+    flex-direction: column;
+  }
+}
