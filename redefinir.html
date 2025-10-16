@@ -18,7 +18,7 @@
 <body>
   <div class="form-box">
     <h3>Redefinir Senha</h3>
-    <form>
+    <form id="formRedefinir">
       <input type="email" placeholder="Digite seu e-mail cadastrado" required>
       <input type="password" placeholder="Nova senha" required>
       <input type="password" placeholder="Confirmar nova senha" required>
@@ -26,5 +26,13 @@
       <p><a href="index.html">Voltar ao login</a></p>
     </form>
   </div>
+
+  <script>
+    document.getElementById("formRedefinir").addEventListener("submit", function(e) {
+      e.preventDefault(); // Impede o recarregamento padrão
+      alert("Senha redefinida com sucesso!");
+      window.location.href = "index.html"; // Redireciona automaticamente
+    });
+  </script>
 </body>
 </html>

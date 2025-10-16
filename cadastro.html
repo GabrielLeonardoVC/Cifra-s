@@ -18,7 +18,7 @@
 <body>
   <div class="form-box">
     <h3>Criar Conta</h3>
-    <form>
+    <form id="formCadastro">
       <input type="text" placeholder="Nome completo" required>
       <input type="email" placeholder="E-mail" required>
       <input type="password" placeholder="Senha" required>
@@ -27,5 +27,13 @@
       <p><a href="index.html">Já tenho conta</a></p>
     </form>
   </div>
+
+  <script>
+    document.getElementById("formCadastro").addEventListener("submit", function(e) {
+      e.preventDefault(); // Impede o recarregamento padrão
+      alert("Conta criada com sucesso!");
+      window.location.href = "index.html"; // Redireciona automaticamente
+    });
+  </script>
 </body>
 </html>
