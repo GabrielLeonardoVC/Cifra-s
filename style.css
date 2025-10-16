@@ -183,3 +183,37 @@ body.dark {
     flex-direction: column;
   }
 }
+/* ===== MENU LATERAL ===== */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 240px;
+  height: calc(100% - 60px);
+  background-color: #f8f9fb;
+  border-right: 2px solid #ddd;
+  padding: 15px;
+  transition: transform 0.3s ease-in-out;
+  z-index: 90;
+  overflow-y: auto;
+}
+
+/* Esconde o menu em telas menores */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* Ajusta botão de menu */
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #c40000;
+  margin-right: 10px;
+}
