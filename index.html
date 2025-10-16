@@ -51,8 +51,24 @@
       border-radius: 6px;
       cursor: pointer;
       width: 100%;
+      font-weight: bold;
     }
     .login-box button:hover { background: #00b24f; }
+
+    .login-links {
+      margin-top: 15px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .login-links a {
+      color: #c40000;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .login-links a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -67,6 +83,10 @@
         <label for="senha">Senha:</label>
         <input type="password" id="senha" placeholder="Digite sua senha" required>
         <button type="submit">Entrar</button>
+        <div class="login-links">
+          <a href="cadastro.html">Não tenho conta</a>
+          <a href="redefinir.html">Esqueci minha senha</a>
+        </div>
       </form>
     </div>
   </div>
@@ -80,7 +100,6 @@
 
   <!-- ===== LAYOUT ===== -->
   <div class="layout" id="mainLayout" style="display:none;">
-    <!-- Sidebar -->
     <nav class="sidebar" id="sidebar">
       <h2>Repertório</h2>
       <a href="#" data-page="inicio" class="active">Página Inicial</a>
@@ -99,15 +118,13 @@
       <a href="#" data-page="cantofinal">Canto Final</a>
     </nav>
 
-    <!-- Conteúdo principal -->
     <main class="main-content fade-in" id="conteudo">
       <h2>Bem-vindo ao <span>Cifra's</span></h2>
-      <p>Aqui você encontra as músicas para missas ou celebrações!.<br>
+      <p>Aqui você encontra as músicas para missas ou celebrações!<br>
       Clique no menu ao lado para acessar cada momento da missa.</p>
     </main>
   </div>
 
-  <!-- ===== SCRIPT ===== -->
   <script>
     const loginScreen = document.getElementById("loginScreen");
     const loginForm = document.getElementById("loginForm");
@@ -121,12 +138,11 @@
     // ===== LOGIN =====
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      // Aqui você poderia validar com backend
       loginScreen.style.display = "none";
       mainLayout.style.display = "flex";
     });
 
-    // Alterna menu lateral no mobile
+    // Alterna menu lateral
     menuToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 
     // Alterna tema
@@ -135,9 +151,9 @@
       themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
     });
 
-    // Dados das páginas
+    // Dados e navegação SPA
     const paginas = {
-      inicio: { titulo: "Bem-vindo ao Cifra's", texto: `<p>Aqui você encontra as músicas para missas ou celebrações!.<br>Clique no menu ao lado para acessar cada momento da missa.</p>`, voltar: null, proximo: "entrada" },
+      inicio: { titulo: "Bem-vindo ao Cifra's", texto: `<p>Aqui você encontra as músicas para missas ou celebrações!<br>Clique no menu ao lado para acessar cada momento da missa.</p>`, voltar: null, proximo: "entrada" },
       entrada: { titulo: "Canto de Entrada", texto: `<div class="musica-card"><h3>À Senhora Aparecida</h3><p><strong>Compositor:</strong> Padre Zezinho</p><p><strong>Tom:</strong> G</p></div>`, voltar: "inicio", proximo: "penitencial" },
       penitencial: { titulo: "Ato Penitencial", texto: `<div class="musica-card"><h3>Senhor, Tende Piedade</h3><p><strong>Tom:</strong> A</p></div>`, voltar: "entrada", proximo: "gloria" },
       gloria: { titulo:"Glória", texto:"<p>Conteúdo do Glória</p>", voltar:"penitencial", proximo:"salmo" },
@@ -153,7 +169,6 @@
       cantofinal: { titulo:"Canto Final", texto:"<p>Conteúdo do Canto Final</p>", voltar:"homenagem", proximo:null }
     };
 
-    // Carregar página
     function carregar(pagina) {
       const p = paginas[pagina];
       conteudo.innerHTML = `
@@ -166,29 +181,20 @@
       `;
       conteudo.classList.remove("show");
       setTimeout(() => conteudo.classList.add("show"), 10);
-
-      // Atualiza ativo no menu
       links.forEach(link => link.classList.remove("active"));
       const linkAtivo = Array.from(links).find(l => l.dataset.page === pagina);
-      if(linkAtivo) linkAtivo.classList.add("active");
-
-      // Fecha menu mobile
+      if (linkAtivo) linkAtivo.classList.add("active");
       sidebar.classList.remove("open");
-
-      // Scroll topo
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Eventos nos links do menu
     links.forEach(link => {
       link.addEventListener("click", (e) => {
         e.preventDefault();
-        const page = link.dataset.page;
-        carregar(page);
+        carregar(link.dataset.page);
       });
     });
 
-    // Inicializa SPA
     carregar("inicio");
   </script>
 </body>
