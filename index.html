@@ -103,6 +103,7 @@
     <nav class="sidebar" id="sidebar">
       <h2>Repertório</h2>
       <a href="#" data-page="inicio" class="active">Página Inicial</a>
+      <a href="#" data-page="repertorio">Repertório Completo</a>
       <a href="#" data-page="entrada">Canto de Entrada</a>
       <a href="#" data-page="penitencial">Ato Penitencial</a>
       <a href="#" data-page="gloria">Glória</a>
@@ -125,6 +126,7 @@
     </main>
   </div>
 
+  <!-- ===== SCRIPT PRINCIPAL ===== -->
   <script>
     const loginScreen = document.getElementById("loginScreen");
     const loginForm = document.getElementById("loginForm");
@@ -135,38 +137,76 @@
     const conteudo = document.getElementById("conteudo");
     const links = sidebar.querySelectorAll("a");
 
-    // ===== LOGIN =====
+    // LOGIN
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
       loginScreen.style.display = "none";
       mainLayout.style.display = "flex";
     });
 
-    // Alterna menu lateral
+    // MENU LATERAL (mobile)
     menuToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 
-    // Alterna tema
+    // TEMA
     themeToggle.addEventListener("click", () => {
       document.body.classList.toggle("dark");
       themeToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
     });
 
-    // Dados e navegação SPA
+    // ===== PÁGINAS =====
     const paginas = {
-      inicio: { titulo: "Bem-vindo ao Cifra's", texto: `<p>Aqui você encontra as músicas para missas ou celebrações!<br>Clique no menu ao lado para acessar cada momento da missa.</p>`, voltar: null, proximo: "entrada" },
-      entrada: { titulo: "Canto de Entrada", texto: `<div class="musica-card"><h3>À Senhora Aparecida</h3><p><strong>Compositor:</strong> Padre Zezinho</p><p><strong>Tom:</strong> G</p></div>`, voltar: "inicio", proximo: "penitencial" },
-      penitencial: { titulo: "Ato Penitencial", texto: `<div class="musica-card"><h3>Senhor, Tende Piedade</h3><p><strong>Tom:</strong> A</p></div>`, voltar: "entrada", proximo: "gloria" },
+      inicio: {
+        titulo: "Bem-vindo ao Cifra's",
+        texto: `<p>Aqui você encontra as músicas para missas ou celebrações!<br>Clique no menu ao lado para acessar cada momento da missa.</p>`,
+        voltar: null,
+        proximo: "repertorio"
+      },
+
+      repertorio: {
+        titulo: "Gerar Repertório Personalizado",
+        texto: `
+          <section id="repertorioFormSection">
+            <h3>✏️ Criar um novo Repertório</h3>
+            <form id="repertorioForm" class="repertorio-form">
+              <label>Data e horário:</label>
+              <input type="text" id="repData" placeholder="Ex: 26.10 - Sábado 7h" required>
+
+              <label>Comunidade/Paróquia:</label>
+              <input type="text" id="repLocal" placeholder="Ex: Paróquia Cristo Redentor" required>
+
+              <label>Entrada:</label><input type="text" id="repEntrada" placeholder="Ex: Se eu orar - Eliana Ribeiro">
+              <label>Penitencial:</label><input type="text" id="repPenitencial" placeholder="Ex: Sois o caminho - Shalom">
+              <label>Glória:</label><input type="text" id="repGloria" placeholder="Ex: Glória Shalom - Comunidade Cátolica Shalom">
+              <label>Salmo:</label><input type="text" id="repSalmo">
+              <label>Aclamação:</label><input type="text" id="repAleluia" placeholder="Ex: Aleluia - Canção Nova">
+              <label>Ofertório:</label><input type="text" id="repOfertorio" placeholder="Ex: Estar em tuas mãos - Comunidade Católica Shalom">
+              <label>Santo:</label><input type="text" id="repSanto" placeholder="Ex: Santo - Capella">
+              <label>Cordeiro:</label><input type="text" id="repCordeiro" placeholder="Ex: Cordeiro - Frei Gilson">
+              <label>Comunhão:</label><input type="text" id="repComunhao" placeholder="Ex: Divino Esposo - Suely Façanha">
+              <label>Pós Comunhão:</label><input type="text" id="repPos" placeholder="Ex: Quero Corpo e Sangue - Juninho Cassimiro e Maria Clara Falcão">
+              <label>Final:</label><input type="text" id="repFinal" placeholder="Ex: O meu lugar é o céu - Dunga">
+
+              <button type="submit" class="btn-nav">Salvar Repertório</button>
+            </form>
+            <div id="repertorioDisplay"></div>
+          </section>
+        `,
+        voltar: "inicio",
+        proximo: "entrada"
+      },
+
+      entrada: { titulo:"Canto de Entrada", texto:"<p>Conteúdo do Canto de Entrada</p>", voltar:"repertorio", proximo:"penitencial" },
+      penitencial: { titulo:"Ato Penitencial", texto:"<p>Conteúdo do Ato Penitencial</p>", voltar:"entrada", proximo:"gloria" },
       gloria: { titulo:"Glória", texto:"<p>Conteúdo do Glória</p>", voltar:"penitencial", proximo:"salmo" },
       salmo: { titulo:"Salmo", texto:"<p>Conteúdo do Salmo</p>", voltar:"gloria", proximo:"aleluia" },
       aleluia: { titulo:"Aclamação", texto:"<p>Conteúdo da Aclamação</p>", voltar:"salmo", proximo:"ofertorio" },
       ofertorio: { titulo:"Ofertório", texto:"<p>Conteúdo do Ofertório</p>", voltar:"aleluia", proximo:"santo" },
-      santo: { titulo:"Santo", texto:"<p>Conteúdo do Santo</p>", voltar:"ofertorio", proximo:"respostas" },
-      respostas: { titulo:"Respostas", texto:"<p>Conteúdo das Respostas</p>", voltar:"santo", proximo:"cordeiro" },
-      cordeiro: { titulo:"Cordeiro", texto:"<p>Conteúdo do Cordeiro</p>", voltar:"respostas", proximo:"comunhao" },
+      santo: { titulo:"Santo", texto:"<p>Conteúdo do Santo</p>", voltar:"ofertorio", proximo:"cordeiro" },
+      cordeiro: { titulo:"Cordeiro", texto:"<p>Conteúdo do Cordeiro</p>", voltar:"santo", proximo:"comunhao" },
       comunhao: { titulo:"Comunhão", texto:"<p>Conteúdo da Comunhão</p>", voltar:"cordeiro", proximo:"poscomunhao" },
-      poscomunhao: { titulo:"Pós Comunhão", texto:"<p>Conteúdo do Pós Comunhão</p>", voltar:"comunhao", proximo:"homenagem" },
+      poscomunhao: { titulo:"Pós Comunhão", texto:"<p>Conteúdo do Pós Comunhão</p>", voltar:"comunhao", proximo:"cantofinal" },
       homenagem: { titulo:"Homenagem", texto:"<p>Conteúdo da Homenagem</p>", voltar:"poscomunhao", proximo:"cantofinal" },
-      cantofinal: { titulo:"Canto Final", texto:"<p>Conteúdo do Canto Final</p>", voltar:"homenagem", proximo:null }
+      cantofinal: { titulo:"Canto Final", texto:"<p>Conteúdo do Canto Final</p>", voltar:"poscomunhao", proximo:null }
     };
 
     function carregar(pagina) {
@@ -179,23 +219,73 @@
           ${p.proximo ? `<button class="btn-nav" onclick="carregar('${p.proximo}')">Próximo →</button>` : `<button class="btn-nav" disabled>Próximo →</button>`}
         </div>
       `;
-      conteudo.classList.remove("show");
-      setTimeout(() => conteudo.classList.add("show"), 10);
-      links.forEach(link => link.classList.remove("active"));
-      const linkAtivo = Array.from(links).find(l => l.dataset.page === pagina);
-      if (linkAtivo) linkAtivo.classList.add("active");
+      links.forEach(l => l.classList.remove("active"));
+      const ativo = Array.from(links).find(l => l.dataset.page === pagina);
+      if (ativo) ativo.classList.add("active");
       sidebar.classList.remove("open");
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     links.forEach(link => {
-      link.addEventListener("click", (e) => {
+      link.addEventListener("click", e => {
         e.preventDefault();
         carregar(link.dataset.page);
       });
     });
 
     carregar("inicio");
+
+    // ===== FORMULÁRIO DE REPERTÓRIO =====
+    document.addEventListener("submit", (e) => {
+      if (e.target.id === "repertorioForm") {
+        e.preventDefault();
+        const rep = {
+          data: repData.value,
+          local: repLocal.value,
+          entrada: repEntrada.value,
+          penitencial: repPenitencial.value,
+          gloria: repGloria.value,
+          salmo: repSalmo.value,
+          aleluia: repAleluia.value,
+          ofertorio: repOfertorio.value,
+          santo: repSanto.value,
+          cordeiro: repCordeiro.value,
+          comunhao: repComunhao.value,
+          pos: repPos.value,
+          final: repFinal.value
+        };
+        localStorage.setItem("repertorioAtual", JSON.stringify(rep));
+        mostrarRepertorio(rep);
+      }
+    });
+
+    function mostrarRepertorio(rep) {
+      const area = document.getElementById("repertorioDisplay");
+      if (!area) return;
+      area.innerHTML = `
+        <hr>
+        <h3>📖 Repertório Gerado</h3>
+        <p><strong>${rep.data}</strong><br>${rep.local}</p>
+        <div class="musica-card"><strong>Entrada:</strong> ${rep.entrada || "-"}</div>
+        <div class="musica-card"><strong>Penitencial:</strong> ${rep.penitencial || "-"}</div>
+        <div class="musica-card"><strong>Glória:</strong> ${rep.gloria || "-"}</div>
+        <div class="musica-card"><strong>Salmo:</strong> ${rep.salmo || "-"}</div>
+        <div class="musica-card"><strong>Aclamação:</strong> ${rep.aleluia || "-"}</div>
+        <div class="musica-card"><strong>Ofertório:</strong> ${rep.ofertorio || "-"}</div>
+        <div class="musica-card"><strong>Santo:</strong> ${rep.santo || "-"}</div>
+        <div class="musica-card"><strong>Cordeiro:</strong> ${rep.cordeiro || "-"}</div>
+        <div class="musica-card"><strong>Comunhão:</strong> ${rep.comunhao || "-"}</div>
+        <div class="musica-card"><strong>Pós Comunhão:</strong> ${rep.pos || "-"}</div>
+        <div class="musica-card"><strong>Final:</strong> ${rep.final || "-"}</div>
+      `;
+    }
+
+    window.addEventListener("load", () => {
+      const salvo = localStorage.getItem("repertorioAtual");
+      if (salvo && document.getElementById("repertorioDisplay")) {
+        mostrarRepertorio(JSON.parse(salvo));
+      }
+    });
   </script>
 </body>
 </html>
